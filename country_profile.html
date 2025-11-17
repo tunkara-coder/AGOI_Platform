@@ -1,0 +1,61 @@
+{% extends "base.html" %}
+
+{% block content %}
+<div class="container mt-4">
+    <h1>{{ country.name }}</h1>
+    
+    {% if scores %}
+    {% set latest_score = scores[0] %}
+    <div class="card mt-4">
+        <div class="card-header">
+            <h5 class="mb-0">Current Performance ({{ latest_score.year }})</h5>
+        </div>
+        <div class="card-body">
+            <div class="row text-center">
+                <div class="col-md-3">
+                    <h6>Policy & Governance</h6>
+                    <div class="progress">
+                        <div class="progress-bar" style="width: {{ (latest_score.policy_score or 0) * 100 }}%"></div>
+                    </div>
+                    <div>{{ ((latest_score.policy_score or 0) * 100) | round(1) }}%</div>
+                </div>
+                <div class="col-md-3">
+                    <h6>Sectoral Potential</h6>
+                    <div class="progress">
+                        <div class="progress-bar" style="width: {{ (latest_score.sectoral_score or 0) * 100 }}%"></div>
+                    </div>
+                    <div>{{ ((latest_score.sectoral_score or 0) * 100) | round(1) }}%</div>
+                </div>
+                <div class="col-md-3">
+                    <h6>Finance Ecosystem</h6>
+                    <div class="progress">
+                        <div class="progress-bar" style="width: {{ (latest_score.finance_score or 0) * 100 }}%"></div>
+                    </div>
+                    <div>{{ ((latest_score.finance_score or 0) * 100) | round(1) }}%</div>
+                </div>
+                <div class="col-md-3">
+                    <h6>Human Capital</h6>
+                    <div class="progress">
+                        <div class="progress-bar" style="width: {{ (latest_score.human_capital_score or 0) * 100 }}%"></div>
+                    </div>
+                    <div>{{ ((latest_score.human_capital_score or 0) * 100) | round(1) }}%</div>
+                </div>
+            </div>
+            
+            <div class="text-center mt-4">
+                <h4>Overall Score: {{ ((latest_score.overall_score or 0) * 100) | round(1) }}%</h4>
+                {% if latest_score.tier == 'Frontrunner' %}
+                    <span class="badge bg-success fs-5">Frontrunner</span>
+                {% elif latest_score.tier == 'Emerging' %}
+                    <span class="badge bg-warning text-dark fs-5">Emerging</span>
+                {% elif latest_score.tier == 'High Potential' %}
+                    <span class="badge bg-info fs-5">High Potential</span>
+                {% else %}
+                    <span class="badge bg-secondary fs-5">{{ latest_score.tier or 'Not Rated' }}</span>
+                {% endif %}
+            </div>
+        </div>
+    </div>
+    {% endif %}
+</div>
+{% endblock %}
